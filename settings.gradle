@@ -1,0 +1,1 @@
+include ':app', ':gson-2.7', ':httpclient-4.2.1', ':httpcore-4.2.1', ':universal-image-loader-1.9.5'

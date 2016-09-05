@@ -1,3 +1,9 @@
+# External libs
+gson-2.7/
+httpclient-4.2.1/
+httpcore-4.2.1/
+universal-image-loader-1.9.5/
+
 # Built application files
 *.apk
 *.ap_
@@ -12,6 +18,7 @@
 bin/
 gen/
 out/
+.idea/
 
 # Gradle files
 .gradle/
@@ -38,3 +45,13 @@ captures/
 
 # Keystore files
 *.jks
+
+# From Android Studio
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+
