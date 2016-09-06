@@ -9,6 +9,10 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
+    dataBinding{
+        enabled = true;
+    }
+
     defaultConfig {
         applicationId "io.github.funkynoodles.zapposcompareprice"
         minSdkVersion 16

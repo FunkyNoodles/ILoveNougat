@@ -2,6 +2,8 @@ package io.github.funkynoodles.zapposcompareprice;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -28,6 +31,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
 
+import io.github.funkynoodles.zapposcompareprice.databinding.CardViewBinding;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -40,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private SearchQuery searchQuery;
 
     public static ImageLoader imageLoader;
-    public static Handler mHandler;
 
     private static Context context;
 
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mHandler = new CustomHandler(Looper.getMainLooper());
+
     }
 
     @Override
@@ -104,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -147,24 +150,14 @@ public class MainActivity extends AppCompatActivity {
         return context;
     }
 
-    public static class CustomHandler extends Handler{
-        public CustomHandler(Looper l){
-            super(l);
-        }
-        @Override
-        public void handleMessage(Message message){
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getContext());
-            builder.setTitle("Match with lower price found");
-            builder.setMessage("Found the same product with a lower price on 6pm.com");
-            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // continue with delete
-                }
-            });
-            builder.setIcon(android.R.drawable.ic_dialog_info);
-            AlertDialog alertDialog = builder.create();
-            System.out.println("HAHAHAHAAAH");
-            alertDialog.show();
-        }
+
+
+    public void cardClicked(View view){
+        CardViewBinding binding = DataBindingUtil.getBinding(view);
+    // Start another activity to display clicked product
+        Intent intent = new Intent(MainActivity.getContext(), ItemActivity.class);
+        intent.putExtra(Constants.SEARCH_TERM, searchQuery.getOriginalTerm());
+        intent.putExtra(Constants.SEARCH_RESULT, binding.getSearchResult());
+        MainActivity.getContext().startActivity(intent);
     }
 }
