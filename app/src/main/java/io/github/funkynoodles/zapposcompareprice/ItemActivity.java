@@ -178,7 +178,6 @@ public class ItemActivity extends AppCompatActivity {
             builder.setMessage(m);
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    // continue with delete
                 }
             });
             AlertDialog alertDialog = builder.create();
@@ -197,7 +196,6 @@ public class ItemActivity extends AppCompatActivity {
             builder.setMessage("6pm.com either did not have this product or is not cheaper");
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    // continue with delete
                 }
             });
             AlertDialog alertDialog = builder.create();

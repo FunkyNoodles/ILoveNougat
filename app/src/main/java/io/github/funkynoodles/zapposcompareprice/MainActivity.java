@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-
+    private LinearLayoutManager layoutManager;
     private TextView noSearchText;
     private TextView startBySearchText;
 
@@ -65,10 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(MainActivity.getContext(),LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
-
     }
 
     @Override
@@ -77,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem searchItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query){
+            public boolean onQueryTextSubmit(String query) {
                 String apiSite = "https://api.zappos.com/Search?term=";
                 String zapposKey = "&key=b743e26728e16b81da139182bb2094357c31d331";
                 String url = apiSite + query + zapposKey;
@@ -87,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 // Clear the area and then execute URL read in another thread
                 noSearchText.setVisibility(TextView.INVISIBLE);
                 startBySearchText.setVisibility(TextView.INVISIBLE);
-                if (adapter != null){
+                if (adapter != null) {
                     adapter.clearData();
                 }
                 new ReadURLZappos().execute(url);
@@ -95,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 searchView.clearFocus();
                 return true;
             }
+
             @Override
-            public boolean onQueryTextChange(String query){
+            public boolean onQueryTextChange(String query) {
                 return false;
             }
         });
@@ -126,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 res = httpclient.execute(new HttpGet(URI.create(url[0])));
                 resString = EntityUtils.toString(res.getEntity(), "UTF-8");
             } catch (Exception e) {
-                e.printStackTrace();
                 return null;
             }
             // Use Gson from Google to read JSON format
@@ -142,7 +139,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             adapter = new RecyclerViewAdapter(searchQuery);
+            // Set cache size to force call onCreateViewHolder
+            recyclerView.setItemViewCacheSize(searchQuery.getCurrentResultCount());
             recyclerView.setAdapter(adapter);
+
         }
     }
 
@@ -150,11 +150,9 @@ public class MainActivity extends AppCompatActivity {
         return context;
     }
 
-
-
     public void cardClicked(View view){
         CardViewBinding binding = DataBindingUtil.getBinding(view);
-    // Start another activity to display clicked product
+        // Start another activity to display clicked product
         Intent intent = new Intent(MainActivity.getContext(), ItemActivity.class);
         intent.putExtra(Constants.SEARCH_TERM, searchQuery.getOriginalTerm());
         intent.putExtra(Constants.SEARCH_RESULT, binding.getSearchResult());

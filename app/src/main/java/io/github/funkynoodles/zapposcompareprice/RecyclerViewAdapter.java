@@ -68,15 +68,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
+    private int index = 0;
+
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         // Inflate a card view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
-        binding = CardViewBinding.bind(v);
-
-        //bindings.add(binding);
-        //System.out.println(bindings.size());
         // Bind search result data to card view
+        binding = CardViewBinding.bind(v);
+        final SearchResult searchResult = searchQuery.getResult(index);
+
+        System.out.println(index);
+        ++index;
         return new ViewHolder(v);
     }
 
@@ -95,8 +98,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.productNameText.setText(name);
         viewHolder.priceText.setText(searchResult.getPrice());
         viewHolder.searchResult = searchResult;
-
         binding.setSearchResult(searchResult);
+        System.out.println(i);
     }
 
     @Override
