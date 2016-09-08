@@ -49,10 +49,7 @@ public class ItemActivity extends AppCompatActivity {
 
     private String connectedDeviceName = null;
     private ArrayAdapter<String> arrayAdapter;
-
-    private BluetoothAdapter btAdapter = null;
-    private BluetoothShareService shareService = null;
-
+    
     SearchQuery pmSearchQuery;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
