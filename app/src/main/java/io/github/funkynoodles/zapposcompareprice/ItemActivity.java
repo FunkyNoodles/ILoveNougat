@@ -1,6 +1,7 @@
 package io.github.funkynoodles.zapposcompareprice;
 
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,12 @@ public class ItemActivity extends AppCompatActivity {
     public static Handler notFoundHandler;
 
     private static Context context;
+
+    private String connectedDeviceName = null;
+    private ArrayAdapter<String> arrayAdapter;
+
+    private BluetoothAdapter btAdapter = null;
+    private BluetoothShareService shareService = null;
 
     SearchQuery pmSearchQuery;
     @Override
@@ -103,6 +111,10 @@ public class ItemActivity extends AppCompatActivity {
     public static Context getContext(){
         return context;
     }
+
+    public void shareButtonPressed(View v){
+    }
+
 
     public void doneButtonPressed(View v){
         finish();

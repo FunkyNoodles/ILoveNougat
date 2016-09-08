@@ -1,5 +1,6 @@
 package io.github.funkynoodles.zapposcompareprice;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = this;
         setContentView(R.layout.activity_main);
+
+        // Verify Bluetooth
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            // Device does not support Bluetooth
+        }
 
         // Setups
         noSearchText = (TextView)findViewById(R.id.noSearchResult);
@@ -157,5 +164,10 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Constants.SEARCH_TERM, searchQuery.getOriginalTerm());
         intent.putExtra(Constants.SEARCH_RESULT, binding.getSearchResult());
         MainActivity.getContext().startActivity(intent);
+    }
+
+    public void settingsClicked(MenuItem item){
+        //Intent intent = new Intent(MainActivity.getContext(), SettingsActivity.class);
+        //startActivityForResult(intent, 1);
     }
 }
